@@ -5,7 +5,7 @@ module.exports = function(done) {
     User
       .deleteMany({
           _id:{
-              $ne: "5cb4c91945915a17560764bc"
+              $nin: ["5cb4c91945915a17560764bc", "5cb4c91945915a17560764bd" ]
           }
       })
       .then(function() {

@@ -19,7 +19,13 @@ function nodeErrorMessage(message){
             return 400;
         }
         case "Password is Invalid!":{
-            return 400
+            return 400;
+        }
+        case "Incorrect password for register as admin":{
+            return 400;
+        }
+        case "Item id not found":{
+            return 400;
         }
         default :{
             return 500;

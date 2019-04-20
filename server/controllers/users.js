@@ -30,6 +30,13 @@ class UserController{
             email: req.body.email,
             password: req.body.password
         }
+        if(req.body.admin_password){
+            if(req.body.admin_password === process.env.ADMIN_PASSWORD){
+                body.role = "admin";
+            }else{
+                next(new Error("Incorrect password for register as admin"))
+            }
+        }
         User.create(body)
         .then(result=>{
             let token = tokenHelper.createToken({
@@ -50,14 +57,22 @@ class UserController{
         })
     }
     static getUser(req,res,next){
-        let user = {
-            _id:req.body.user._id,
-            accountType:req.body.user.accountType,
-            email:req.body.user.email,
-            imageUrl:req.body.user.imageUrl,
-            name: req.body.user.name
+        let user ={}
+        try{
+            user = {
+                _id:req.body.user._id,
+                accountType:req.body.user.accountType,
+                email:req.body.user.email,
+                imageUrl:req.body.user.imageUrl,
+                name: req.body.user.name,
+                role: req.body.user.role
+            }
         }
-        console.log(user)
+        catch(err){
+            next(err)
+        }
+   
+        
         res.status(200).json(user)
     }
     static patch(req,res,next){
@@ -65,7 +80,7 @@ class UserController{
             let updateVal = {
                 imageUrl: req.file.cloudStoragePublicUrl
             }
-            User.findByIdAndUpdate(req.params.userIdFromAuth,updateVal,{new:true})
+            User.findByIdAndUpdate(req.params.user._id,updateVal,{new:true})
             .then(result=>{
                 res.status(200).json({imageUrl: result.imageUrl});
             })
@@ -83,7 +98,8 @@ function composeReturn(token,result){
     return {
         token:token,
         name: result.name,
-        imageUrl: result.imageUrl
+        imageUrl: result.imageUrl,
+        role: result.role
     }
     
 }

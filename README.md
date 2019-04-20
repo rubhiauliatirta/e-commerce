@@ -34,7 +34,7 @@ Melakukan register customer
 
 Melakukan register admin pada app e-commerce ini
 
-**URL** : `/users/regadmin`
+**URL** : `/users/register`
 
 **Method** : `POST`
 

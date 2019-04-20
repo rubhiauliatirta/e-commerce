@@ -34,7 +34,7 @@ describe("User tests", function () {
                 expect(res).to.have.status(201);
                 expect(res.body).to.be.an("object")
                 expect(res.body.name).to.equal("Rubhi Aulia")
-                expect(res.body).to.have.keys(['token','name',"imageUrl"]);
+                expect(res.body).to.have.keys(['token','name',"imageUrl","role"]);
                 done()
             });
         });
@@ -52,6 +52,45 @@ describe("User tests", function () {
                 done()
             })
         })
+        it("should success register admin with status 201 with no error", function(done){
+            let user = {
+                name: "marchell",
+                email: "admina@email.com",
+                password: "12345",
+                admin_password: "adminasikgilak"
+            }
+            chai
+            .request(app)
+            .post("/users/register")
+            .send(user)
+            .end(function (err, res) {
+                expect(err).to.be.null;
+                expect(res).to.have.status(201);
+                expect(res.body).to.be.an("object")
+                expect(res.body.name).to.equal("marchell")
+                expect(res.body).to.have.keys(['token','name',"imageUrl","role"]);
+                done()
+            });
+        })
+        it("should failed register admin (wrong admin password) with status 400", function(done){
+            let user = {
+                name: "adminpalsu",
+                email: "admin2@email.com",
+                password: "12345",
+                admin_password: "paswordsalah"
+            }
+            chai
+            .request(app)
+            .post("/users/register")
+            .send(user)
+            .end(function (err, res) {
+                expect(err).to.be.null;
+                expect(res).to.have.status(400)
+                expect(res.body).to.have.all.keys('error','message',"source","statusCode");
+                expect(res.body.message).to.include('Incorrect password for register as admin')
+                done()
+            });
+        })
     });
 
     describe("POST /users/login", function(){
@@ -68,7 +107,7 @@ describe("User tests", function () {
                 expect(err).to.be.null;
                 expect(res).to.have.status(200);
                 expect(res.body).to.be.an("object")
-                expect(res.body).to.have.all.keys("token","name","imageUrl")
+                expect(res.body).to.have.all.keys("token","name","imageUrl","role")
                 token = res.body.token
                 done();
             })
@@ -149,7 +188,7 @@ describe("User tests", function () {
                 expect(err).to.be.null;
                 expect(res).to.have.status(200)
                 expect(res.body).to.be.an("object")
-                expect(res.body).to.have.all.keys("imageUrl", "accountType","_id","name","email")
+                expect(res.body).to.have.all.keys("imageUrl", "accountType","_id","name","email","role")
                 done()
             })
         })
