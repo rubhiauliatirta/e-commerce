@@ -6,6 +6,7 @@ const UserController = require("../controllers/users");
 routes.post("/login", UserController.login)
 routes.post("/register", UserController.register)
 routes.post("/logout", auth.authentication, UserController.logout);
+routes.patch("/", auth.authentication, UserController.update);
 routes.get("/profile", auth.authentication, UserController.getUser);
 
 

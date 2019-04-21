@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 
 let file = readFileSync("./test/test.png")
 
-describe.only("Product Test", function () {
+describe("Product Test", function () {
     describe("simulate user login", function(){
         it("Should success login Admin with status 200 with no error and get token",function(done){
             let user = {

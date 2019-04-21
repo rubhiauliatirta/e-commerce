@@ -14,7 +14,7 @@ after(function(done) {
     userDrop(done);
 });
 
-let token;
+var token;
 
 describe("User tests", function () {
     describe(" POST /users/register", function () {
@@ -34,7 +34,7 @@ describe("User tests", function () {
                 expect(res).to.have.status(201);
                 expect(res.body).to.be.an("object")
                 expect(res.body.name).to.equal("Rubhi Aulia")
-                expect(res.body).to.have.keys(['token','name',"imageUrl","role"]);
+                expect(res.body).to.have.keys(['token','name',"imageUrl","role","hackpay"]);
                 done()
             });
         });
@@ -68,7 +68,7 @@ describe("User tests", function () {
                 expect(res).to.have.status(201);
                 expect(res.body).to.be.an("object")
                 expect(res.body.name).to.equal("marchell")
-                expect(res.body).to.have.keys(['token','name',"imageUrl","role"]);
+                expect(res.body).to.have.keys(['token','name',"imageUrl","role","hackpay"]);
                 done()
             });
         })
@@ -107,7 +107,7 @@ describe("User tests", function () {
                 expect(err).to.be.null;
                 expect(res).to.have.status(200);
                 expect(res.body).to.be.an("object")
-                expect(res.body).to.have.all.keys("token","name","imageUrl","role")
+                expect(res.body).to.have.all.keys("token","name","imageUrl","role","hackpay")
                 token = res.body.token
                 done();
             })
@@ -188,7 +188,7 @@ describe("User tests", function () {
                 expect(err).to.be.null;
                 expect(res).to.have.status(200)
                 expect(res.body).to.be.an("object")
-                expect(res.body).to.have.all.keys("imageUrl", "accountType","_id","name","email","role")
+                expect(res.body).to.have.all.keys("imageUrl", "accountType","name","hackpay","role")
                 done()
             })
         })

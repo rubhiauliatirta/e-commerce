@@ -13,7 +13,9 @@
     "sweetalert2": "^8.8.5",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
-    "vuetify": "^1.5.11"
+    "vuetify": "^1.5.11",
+    "vuetify-upload-button": "^1.2.2",
+    "vuex": "^3.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.6.0",

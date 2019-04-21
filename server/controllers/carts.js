@@ -3,8 +3,9 @@ const Cart = require("../models/cart");
 class CartController{
     static findAll(req,res,next){
         let userId = req.params.user._id
-        Cart.find({userId:userId,isCheckout:false})
+        Cart.find({userId:userId,isCheckout:false}).populate("product")
         .then(results=>{
+            //console.log(results)
             res.status(200).json(results);
         })
         .catch(error=>{
@@ -14,13 +15,23 @@ class CartController{
     static create(req,res,next){
         let body = {
             userId: req.params.user._id,
-            product: req.params.productId,
+            product: req.body.product,
         }
-        Cart.create(body)
+        Cart.findOne({userId: req.params.user._id,product:req.body.product,isCheckout:false})
+        .then(result=>{
+            if(result){
+                res.status(200).json({
+                    message:"Already exist in user cart"
+                })
+            }else{
+                return Cart.create(body)
+            }
+        })
         .then(result=>{
             res.status(201).json(result);
         })
         .catch(error=>{
+            
             next(error)
         })
     }
@@ -33,10 +44,7 @@ class CartController{
                 res.status(200).json({
                     message:"Delete Success"
                 })
-            }else{
-                throw new Error("Item id not found")
             }
-            
         })
         .catch(err=>{
             next(err)
@@ -46,7 +54,7 @@ class CartController{
         let updateVal = {}
         let id = req.params.cartId;
         req.body.isCheckout && (updateVal.isCheckout = req.body.isCheckout);
-        req.body.stock && (updateVal.stock = req.body.stock);
+        req.body.count && (updateVal.count = req.body.count);
 
         Cart.findByIdAndUpdate(id,updateVal,{new:true})
         .then(result=>{

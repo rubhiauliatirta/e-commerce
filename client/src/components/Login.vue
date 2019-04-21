@@ -31,17 +31,21 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+import myaxios from '@/api/axios'
+import axiosErrorHandler from '@/api/axiosErrorHandler'
 export default {
-  data(){
-    return{
-      email:"",
-      password:"",
+
+  data () {
+    return {
+      email: '',
+      password: '',
       emailRules: [
-          (v) => v.length>0 || 'E-mail is required',
-          (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-        ],
-      passwordRule:[
-        (v) => !!v || 'Password is required',
+        (v) => v.length > 0 || 'E-mail is required',
+        (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+      ],
+      passwordRule: [
+        (v) => !!v || 'Password is required'
       ]
     }
   },
@@ -59,24 +63,29 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['showSnackbar']),
     login () {
       let data = {
         email: this.email,
         password: this.password
       }
-      this.$myaxios({
-         method:'post',
-         url: "/users/login",
-         data
+      myaxios({
+        method: 'post',
+        url: '/users/login',
+        data
       })
-      .then(({data})=>{
-        this.$emit("login-success", data)
-        this.show = false
-        alert("login success")
-      })
-      .catch(error=>{
-          this.$axiosErrorHandler(error)
-      })
+        .then(({ data }) => {
+          localStorage.token = data.token
+          this.$store.dispatch('getUserCart')
+          this.$store.dispatch('getUserOrders')
+          this.$store.commit('setLogin', true)
+          this.$store.commit('setUser', data)
+          this.show = false
+          this.showSnackbar({ text: 'Login Success' })
+        })
+        .catch(error => {
+          axiosErrorHandler(error)
+        })
     }
   }
 }

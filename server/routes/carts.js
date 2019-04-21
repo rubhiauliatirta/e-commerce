@@ -1,13 +1,13 @@
 const routes = require("express").Router();
 const auth = require("../middlewares/auth");
-const CartController = require("../controllers/products");
+const CartController = require("../controllers/carts");
 
 
 //REST API HERE
-routes.get("/", auth.authentication, auth.authorization, CartController.findAll)
-// routes.post("/", auth.authentication, auth.adminOnly, upload.multer.single("image"),upload.sendUploadToGCS, ProductController.create)
-// routes.delete("/:productId", auth.authentication, auth.adminOnly, ProductController.delete)
-// routes.patch("/:productId", auth.authentication, auth.adminOnly, ProductController.update)
+routes.get("/", auth.authentication, auth.customerOnly, CartController.findAll)
+routes.post("/", auth.authentication, auth.customerOnly, CartController.create)
+routes.delete("/:cartId", auth.authentication, auth.customerOnly, auth.cartAuth, CartController.delete)
+routes.patch("/:cartId", auth.authentication, auth.customerOnly, auth.cartAuth, CartController.update)
 
 
 module.exports = routes;

@@ -31,6 +31,10 @@ let userSchema = new Schema({
         type:String,
         default:"customer",
         required:true
+    },
+    hackpay:{
+        type:Number,
+        min:0
     }
 },{timestamps: true})
 

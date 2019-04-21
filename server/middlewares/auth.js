@@ -1,11 +1,11 @@
 const tokenHandler = require("../helpers/tokenHandler");
 const User = require("../models/user");
+const Cart = require("../models/cart");
 
 
 module.exports = {
     authentication : function(req,res,next){
         try{
-          
             let user = tokenHandler.decodeToken(req.headers.authorization)
             User.findOne({_id:user._id})
             .then(result=>{
@@ -23,11 +23,11 @@ module.exports = {
        
     },
     authorization : function(req,res,next){  
-        let loginUser = req.body.user ? req.params.user:null
+        let loginUser = req.body.user || req.params.user || null
 
     },
     adminOnly: function(req,res,next){
-        let loginUser = req.body.user ? req.params.user:null
+        let loginUser = req.body.user || req.params.user || null
 
         if(loginUser && loginUser.role === "admin"){
             next()
@@ -37,7 +37,8 @@ module.exports = {
 
     },
     customerOnly: function(req,res,next){
-        let loginUser = req.body.user ? req.params.user:null
+        let loginUser = req.body.user || req.params.user || null
+       
         if(loginUser && loginUser.role === "customer"){
             next()
         }else{
@@ -46,7 +47,20 @@ module.exports = {
         
     },
     cartAuth: function(req,res,next){
-        
+        let loginUser = req.body.user ? req.params.user:null
+
+        Cart.findOne({_id:req.params.cartId})
+        .then(result=>{
+            if(result){
+                result.userId == loginUser._id ? next():next(new Error("Not Authorized"))
+            }else{
+                throw new Error("Item id not found")
+            }
+   
+        })
+        .catch(err=>{
+            next(err)
+        })
     }
 
 }

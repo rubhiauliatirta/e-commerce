@@ -28,7 +28,8 @@ class UserController{
         let body = {
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            hackpay:0
         }
         if(req.body.admin_password){
             if(req.body.admin_password === process.env.ADMIN_PASSWORD){
@@ -60,12 +61,11 @@ class UserController{
         let user ={}
         try{
             user = {
-                _id:req.body.user._id,
                 accountType:req.body.user.accountType,
-                email:req.body.user.email,
                 imageUrl:req.body.user.imageUrl,
                 name: req.body.user.name,
-                role: req.body.user.role
+                role: req.body.user.role,
+                hackpay: req.body.user.hackpay
             }
         }
         catch(err){
@@ -75,31 +75,29 @@ class UserController{
         
         res.status(200).json(user)
     }
-    static patch(req,res,next){
-        if(req.file){
-            let updateVal = {
-                imageUrl: req.file.cloudStoragePublicUrl
-            }
+    static update(req,res,next){
+       
+            let updateVal = {};
+            req.file && (updateVal.imageUrl = req.file.cloudStoragePublicUrl) 
+            req.body.hackpay && (updateVal.hackpay = req.body.hackpay);
+
             User.findByIdAndUpdate(req.params.user._id,updateVal,{new:true})
             .then(result=>{
-                res.status(200).json({imageUrl: result.imageUrl});
+                res.status(200).json(result);
             })
             .catch(err=>{
                 next(err)
             })
-        }else{
-            next(new Error("File is undefined"))
-        }
-
     }
 }
 function composeReturn(token,result){
- 
+  
     return {
         token:token,
         name: result.name,
         imageUrl: result.imageUrl,
-        role: result.role
+        role: result.role,
+        hackpay: result.hackpay
     }
     
 }
