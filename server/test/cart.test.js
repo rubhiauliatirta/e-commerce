@@ -23,6 +23,8 @@ describe("Cart Test", function () {
             .post("/users/login")
             .send(user)
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
+                console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(200);
                 tokenAdmin = res.body.token
@@ -39,6 +41,7 @@ describe("Cart Test", function () {
             .post("/users/login")
             .send(user)
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(200);
                 tokenCostumer = res.body.token;
@@ -54,7 +57,7 @@ describe("Cart Test", function () {
             .get("/carts")
             .set({authorization:tokenCostumer})
             .end(function (err, res) {
-               
+                console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(200);
                 expect(res.body).to.be.an("array")
@@ -70,7 +73,7 @@ describe("Cart Test", function () {
             .get("/carts")
             .set({authorization:tokenAdmin})
             .end(function (err, res) {
-              
+                console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,401,"Not Authorized")
                 done()
             });
@@ -80,6 +83,7 @@ describe("Cart Test", function () {
             .request(app)
             .get("/carts")
             .end(function (err, res) {
+                console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,403,"Token is undefined")
                 done()
             });
@@ -97,7 +101,7 @@ describe("Cart Test", function () {
             .set({authorization:tokenCostumer})
             .send(data)
             .end(function(err,res){
-                console.log(res)
+                 console.log(JSON.stringify(res.body,null,3))
                 cartId = res.body._id;
                 expect(err).to.be.null;
                 expect(res).to.have.status(201);
@@ -118,6 +122,7 @@ describe("Cart Test", function () {
             .set({authorization:tokenAdmin})
             .send(data)
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,401,"Not Authorized")
                 done()
             })
@@ -133,6 +138,7 @@ describe("Cart Test", function () {
             .post("/carts")
             .send(data)
             .end(function (err, res) {
+                console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,403,"Token is undefined")
                 done()
             });
@@ -145,6 +151,7 @@ describe("Cart Test", function () {
             .set({authorization:tokenCostumer})
             .send(data)
             .end(function (err, res) {
+                console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,400,"validation")
                 done()
             });
@@ -157,6 +164,7 @@ describe("Cart Test", function () {
             .delete(`/carts/5cbacfd089874a2327dc0327`)
             .set({authorization:tokenCostumer})
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,400,"Item id not found")
                 done()
             })
@@ -167,6 +175,7 @@ describe("Cart Test", function () {
             .delete(`/products/5cbacfd089874a2327dc0327`)
             .set({authorization:""})
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,403,"Token is undefined")
                 done()
             })
@@ -177,6 +186,7 @@ describe("Cart Test", function () {
             .delete(`/products/${cartId}`)
             .set({authorization:tokenCostumer})
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,401,"Not Authorized")
                 done()
             })
@@ -187,6 +197,7 @@ describe("Cart Test", function () {
             .delete(`/carts/${cartId}`)
             .set({authorization:tokenCostumer})
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 testFunction.successTest(err,res)
                 expect(res.body.message).to.equal("Delete Success")
                 done()

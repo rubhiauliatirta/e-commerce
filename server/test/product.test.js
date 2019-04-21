@@ -24,6 +24,7 @@ describe("Product Test", function () {
             .post("/users/login")
             .send(user)
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(200);
                 tokenAdmin = res.body.token
@@ -40,6 +41,7 @@ describe("Product Test", function () {
             .post("/users/login")
             .send(user)
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(200);
                 tokenCostumer = res.body.token
@@ -53,6 +55,7 @@ describe("Product Test", function () {
             .request(app)
             .get("/products")
             .end(function (err, res) {
+                 console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(200);
                 expect(res.body).to.be.an("array")
@@ -74,6 +77,7 @@ describe("Product Test", function () {
             .field("price", "1000000")
             .field("stock", "10")
             .end(function (err, res) {
+                 console.log(JSON.stringify(res.body,null,3))
                 
                 productId = res.body._id; 
                 expect(err).to.be.null;
@@ -93,6 +97,7 @@ describe("Product Test", function () {
             .field("price", "1000000")
             .field("stock", "10")
             .end(function (err, res) {
+                 console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,403,"Token is Invalid")  
                 done();
             });
@@ -107,6 +112,7 @@ describe("Product Test", function () {
             .field("price", "1000000")
             .field("stock", "10")
             .end(function (err, res) {
+                 console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,401,"Not Authorized")    
                 done();
             });
@@ -121,6 +127,7 @@ describe("Product Test", function () {
             .field("price", "-1")
             .field("stock", "10")
             .end(function (err, res) {
+                 console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,400,"Product validation failed")     
                 done();
             });
@@ -135,6 +142,7 @@ describe("Product Test", function () {
             .field("price", "10")
             .field("stock", "-1")
             .end(function (err, res) {
+                 console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,400,"Product validation failed")    
                 done();
             });
@@ -149,6 +157,7 @@ describe("Product Test", function () {
             .field("price", "10")
             .field("stock", "1000")
             .end(function (err, res) {
+                 console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,400,"Product validation failed")     
                 done();
             });
@@ -162,6 +171,7 @@ describe("Product Test", function () {
             .field("price", "10")
             .field("stock", "10")
             .end(function (err, res) {
+                 console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,400,"Path `image` is required") 
                 done();
             });
@@ -174,6 +184,7 @@ describe("Product Test", function () {
             .delete(`/products/${productId}`)
             .set({authorization:tokenAdmin})
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 testFunction.successTest(err,res)
                 expect(res.body.message).to.equal("Delete Success")
                 done()
@@ -185,6 +196,7 @@ describe("Product Test", function () {
             .delete(`/products/5cb4c91945915a175607648f`)
             .set({authorization:tokenAdmin})
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,400,"Item id not found")
                 done()
             })
@@ -195,6 +207,7 @@ describe("Product Test", function () {
             .delete(`/products/5cb4c91945915a175607648f`)
             .set({authorization:"alknfalknfalkfnaleknf"})
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,403,"Token is Invalid")
                 done()
             })
@@ -205,6 +218,7 @@ describe("Product Test", function () {
             .delete(`/products/5cb4c91945915a175607648f`)
             .set({authorization:tokenCostumer})
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 testFunction.errorTest(err,res,401,"Not Authorized")
                 done()
             })

@@ -30,6 +30,7 @@ describe("User tests", function () {
             .post("/users/register")
             .send(user)
             .end(function (err, res) {
+                 console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(201);
                 expect(res.body).to.be.an("object")
@@ -45,6 +46,7 @@ describe("User tests", function () {
             .post("/users/register")
             .send(errorUser)
             .end(function(err, res){
+                console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(400)
                 expect(res.body).to.have.all.keys('error','message',"source","statusCode");
@@ -64,6 +66,7 @@ describe("User tests", function () {
             .post("/users/register")
             .send(user)
             .end(function (err, res) {
+                 console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(201);
                 expect(res.body).to.be.an("object")
@@ -84,6 +87,7 @@ describe("User tests", function () {
             .post("/users/register")
             .send(user)
             .end(function (err, res) {
+                 console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(400)
                 expect(res.body).to.have.all.keys('error','message',"source","statusCode");
@@ -104,6 +108,8 @@ describe("User tests", function () {
             .post("/users/login")
             .send(user)
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
+                console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(200);
                 expect(res.body).to.be.an("object")
@@ -122,6 +128,7 @@ describe("User tests", function () {
             .post("/users/login")
             .send(user)
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(400);
                 expect(res.body).to.be.an("object")
@@ -140,6 +147,7 @@ describe("User tests", function () {
             .post("/users/login")
             .send(user)
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(400);
                 expect(res.body).to.be.an("object")
@@ -156,6 +164,7 @@ describe("User tests", function () {
             .post("/users/logout")
             .set({authorization: token})
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(200);
                 expect(res.body).to.be.an("object")
@@ -169,6 +178,7 @@ describe("User tests", function () {
             .request(app)
             .post("/users/logout")
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(403);
                 expect(res.body).to.be.an("object")
@@ -185,6 +195,7 @@ describe("User tests", function () {
             .get("/users/profile")
             .set({authorization:token})
             .end(function(err,res){
+                 console.log(JSON.stringify(res.body,null,3))
                 expect(err).to.be.null;
                 expect(res).to.have.status(200)
                 expect(res.body).to.be.an("object")
