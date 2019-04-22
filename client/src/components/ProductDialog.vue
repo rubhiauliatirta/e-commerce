@@ -87,7 +87,8 @@ export default {
   methods: {
     ...mapMutations(['showSnackbar', 'addProduct']),
     fileChanged (file) {
-      this.image = file
+      this.image = file,
+      console.log('fileChanged', this.image)
     },
     clearForm () {
       this.name = ''

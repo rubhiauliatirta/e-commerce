@@ -76,8 +76,10 @@ export default {
       })
         .then(({ data }) => {
           localStorage.token = data.token
-          this.$store.dispatch('getUserCart')
-          this.$store.dispatch('getUserOrders')
+          if(data.role === "customer"){
+            this.$store.dispatch('getUserCart')
+            this.$store.dispatch('getUserOrders')
+          }
           this.$store.commit('setLogin', true)
           this.$store.commit('setUser', data)
           this.show = false

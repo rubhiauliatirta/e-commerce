@@ -68,7 +68,7 @@ export default {
   created () {
     this.$store.dispatch('getProduct')
     if (localStorage.token) {
-      this.$store.dispatch('getUserCart')
+      
       myaxios.defaults.headers.common['Authorization'] = localStorage.token
       myaxios({
         method: 'get',
@@ -80,7 +80,11 @@ export default {
             token: localStorage.token,
             ...data
           })
-          this.$store.dispatch('getUserOrders')
+          if(data.role === "customer"){
+            this.$store.dispatch('getUserCart')
+            this.$store.dispatch('getUserOrders')
+          }
+          
         })
         .catch(error => {
           axiosErrorHandler(error)

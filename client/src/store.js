@@ -50,7 +50,7 @@ export default new Vuex.Store({
       state.products = payload
     },
     addProduct (state, payload) {
-      alert('test')
+     
       state.products.push(payload)
     },
     setCart (state, payload) {
@@ -63,7 +63,7 @@ export default new Vuex.Store({
       state.cart.push(payload)
     },
     setOrders (state, payload) {
-      alert('test lagi')
+     
       state.orders = payload
     },
     addOrder (state, payload) {

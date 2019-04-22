@@ -31,7 +31,7 @@
         <h3 class="display-0 font-weight-light black--text mb-2">{{product.name}}</h3>
         <h3 class="display-0 font-weight-light black--text mb-2" v-if="isLogin && loginUser.role === 'admin'"><span>Stok: </span>{{product.stock}}</h3>
         <v-btn @click.stop="deleteProduct" small  v-if="isLogin && loginUser.role === 'admin'">Delete</v-btn>
-        <ProductDialog v-model="showEdit" :edit="true" :product="product" />
+        <!--<ProductDialog v-model="showEdit" :edit="true" :product="product" />-->
       </v-card-text>
     </v-card>
 
